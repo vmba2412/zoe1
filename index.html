@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>embeNabu1</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Dancing+Script&display=swap"
+    rel="stylesheet"
+  />
+  
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-y: auto; /* Cho phép cuộn dọc */
+      background: black;
+      font-family: 'Playfair Display', serif;
+    }
+
+    #mainContent {
+       display: block; /* thay từ none sang block để test */
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    body {
+      background: url('https://motionbgs.com/media/1269/jinx-arcane.jpg')
+        no-repeat center center fixed;
+      background-size: cover;
+    }
+    .header-block {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  text-align: center;
+}
+    .logo-center {
+    
+      position: relative;
+      margin: 0 auto 10px auto;
+    width: 200px;         /* 👈 tăng kích thước */
+    height: 200px;
+    animation: rotate 40s linear infinite;
+    z-index: 10;
+    display: block;
+    transform: translateX(100px); /* 👈 dịch sang phải nhẹ */
+    }
+
+    .logo-center img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+
+    @keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+    .name-block {
+      
+      position: relative; /* từ fixed => relative */
+  margin-top: 50px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 10;
+    }
+
+    .top-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 60px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #f108fb, #f9023e, #00ceff, #f7f7f7);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowFlow 6s ease infinite;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.4),
+    0 0 14px rgba(255, 255, 255, 0.2);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+
+
+
+    .bottom-name {
+  font-family: 'Pacifico', cursive; /* Font viết tay dễ thương */
+  font-size: 40px;
+  font-weight: 400;
+  background: linear-gradient(90deg, #ffb6c1, #ff69b4, #87cefa, #ffe4e1);
+  background-size: 300% auto;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowFlow 8s linear infinite;
+  text-shadow:
+    0 0 5px rgba(255, 192, 203, 0.4),
+    0 0 10px rgba(255, 192, 203, 0.2);
+  letter-spacing: 1.5px;
+  margin-top: 10px;
+}
+
+
+    @keyframes rainbowFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+
+
+
+    .startScreen {
+      position: fixed;
+      z-index: 10000;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .footer-links {
+      position: static; /* thay fixed thành static */
+  margin: 40px auto 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  z-index: 10;
+    }
+	.tier-list-container {
+ max-width: 900px;
+  margin: 30px auto 60px;
+  background: linear-gradient(180deg, #1e102f 0%, #2c1a4d 100%);
+  border-radius: 20px;
+  padding: 30px 40px;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* Giữ background cố định */
+body {
+  background: url('https://4kwallpapers.com/images/wallpapers/star-guardian-zoe-6000x3540-11082.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+     /* new style cho nút: trong suốt, viền gradient chạy + ánh sáng lướt */
+    .link-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      color: #000000;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03); /* hơi mờ, hòa background */
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform .25s ease, box-shadow .25s ease, color .25s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    /* animated gradient border (subtle) */
+    .link-btn::before{
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 60px;
+      background: linear-gradient(90deg, #ef8181, #f9a662, #f7f684, #beffa5, #adfff2, #b9c4f9, #d3b6f3, #f9a7de, #efaeae);
+      background-size: 300% 100%;
+      filter: blur(8px);
+      opacity: 0.8;
+      z-index: -2;
+      transform: translateZ(0);
+      animation: borderFlow 6s linear infinite;
+    }
+    /* mask to keep center content clear (works in webkit) */
+    .link-btn::after{
+      content:"";
+      position:absolute;
+      inset: 2px;
+      border-radius: 48px;
+      background: rgba(0,0,0,0.03); /* keep inner slightly dark so gradient looks like border */
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes borderFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ánh sáng lướt ngang liên tục (mềm) */
+    .link-btn .shine {
+      position:absolute; top:0; left:-60%; width:60%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      transform: skewX(-20deg);
+      animation: shineMove 3.2s linear infinite;
+      pointer-events:none;
+      opacity: 0.45;
+    }
+    @keyframes shineMove {
+      0% { left:-60% }
+      100% { left:160% }
+    }
+
+    /* hover effect */
+    .link-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0,255,255,0.12), 0 0 30px rgba(255,0,200,0.08);
+      color: #00ffee;
+    }
+
+    /* keep platform-specific classes if you like icons colored differently */
+    .fb { /* no background override now (kept for future) */ }
+    .ig {}
+    .yt {}
+    .dou {}
+    .phone {}
+
+    
+
+    
+
+    .contact-box {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      font-weight: 600;
+      font-size: 20px;
+      color: #fff;
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      text-align: center;
+      animation: none;
+      font-family: 'Dancing Script', cursive;
+      user-select: none;
+    }
+
+    .contact-box a {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00f537;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    .contact-box a:hover {
+      background: rgba(0, 172, 237, 0.3);
+      box-shadow: 0 0 10px #00aced, 0 0 20px #00aced;
+      color: white;
+    }
+
+    .phone-popup {
+      position: fixed;
+      bottom: 120px;
+      right: 30px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ffee;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+      display: none;
+      z-index: 99999;
+      width: 280px;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #00ffee;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .close-btn:hover {
+      color: #ff5b5b;
+    }
+
+    .link-btn.glow-border {
+      position: relative;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .link-btn.glow-border::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00ab,
+        #ff0000
+      );
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      animation: glowing 20s linear infinite;
+      border-radius: 999px;
+    }
+
+    @keyframes glowing {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+	 /* Container chung cho Tier List */
+  .tier-list-container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, #2c1a4d 100%);
+    border-radius: 20px;
+    padding: 30px 40px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Tiêu đề phần */
+  .tier-list-container h2 {
+    font-weight: 900;
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+  }
+
+  /* Mỗi dòng tier */
+  .tier-row {
+    display: flex;
+    align-items: center;
+    background: #2f1f4b;
+    border-radius: 16px;
+    padding: 15px 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 8px rgb(255 255 255 / 0.1);
+  }
+
+  /* Viền bên trái theo tier */
+  .tier-row.s-tier {
+    border-left: 6px solid #ff6e8b;
+  }
+  .tier-row.a-tier {
+    border-left: 6px solid #ffa54f;
+  }
+
+  /* Chữ tier lớn */
+  .tier-rank {
+    font-weight: 900;
+    font-size: 26px;
+    min-width: 35px;
+    margin-right: 15px;
+    user-select: none;
+  }
+  .tier-rank.s-tier {
+    color: #ff6e8b;
+  }
+  .tier-rank.a-tier {
+    color: #ffa54f;
+  }
+
+  /* Khung từng tướng */
+  .champion-card {
+    margin-right: 15px;
+    text-align: center;
+    cursor: default;
+    flex-shrink: 0;
+  }
+
+  /* Ảnh tướng */
+  .champion-card img {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    border: 3px solid;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+  }
+
+  /* Viền ảnh theo tier */
+  .champion-card.s-tier img {
+    border-color: #ff6e8b;
+    box-shadow: 0 0 8px #ff6e8baa;
+  }
+  .champion-card.a-tier img {
+    border-color: #ffa54f;
+    box-shadow: 0 0 8px #ffa54faa;
+  }
+
+  /* Tên tướng */
+  .champion-name {
+    margin-top: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #eee;
+  }
+
+  /* Hover hiệu ứng nhỏ nhẹ */
+  .champion-card:hover img {
+    transform: scale(1.1);
+  }
+  .ranks-container {
+  text-align: center;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px 30px;
+  background: linear-gradient(to bottom, #1c0f24, #2c1a4d);
+  border-radius: 14px;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.ranks-container h2 {
+  font-weight: 900;
+  font-size: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.ranks-list {
+  display: Flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.rank-card {
+  background: #1c1c1c;
+  border-radius: 14px;
+  padding: 20px;
+  width: 160px;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px #333;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.rank-card:hover {
+  transform: scale(1.05);
+}
+
+.rank-header {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* thêm dòng này */
+    gap: 8px;
+    margin-bottom: 14px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #ccc;
+    width: 100%;
+}
+
+.rank-header img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.rank-image {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.rank-name {
+  font-weight: 900;
+  font-size: 14px;
+  color: #fff;
+}
+.rank-header img,
+.rank-card img.rank-icon {
+  display: none !important;
+}
+.rank-footer-text {
+  margin-top: 20px;
+  color: #ffffff; /* màu trắng*/*/
+  font-size: 16px;
+  font-weight: 700; /* in đậm */
+  text-align: center;
+  padding: 8px 16px;
+  background-color: rgba(255, 221, 87, 0.2); /* nền vàng nhẹ */
+  border-radius: 8px;
+  text-shadow: 1px 1px 4px rgba(255, 221, 87, 0.7);
+  box-shadow: 0 0 8px rgba(255, 221, 87, 0.5);
+  transition: color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rank-footer-text:hover {
+  color: #fff;
+  box-shadow: 0 0 12px #fff;
+}
+/* Đốm sáng chạy quanh viền */
+.tier-list-container h2 {
+  position: relative;
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #ff00cc;
+  color: #fff;
+  overflow: hidden;
+}
+
+.tier-list-container h2::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -50%;
+  width: 50%;
+  height: calc(100% + 4px);
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  animation: light-move 2s linear infinite;
+}
+
+@keyframes light-move {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+/* Khung viền to bao quanh tất cả */
+.tier-list-container {
+  position: relative;
+  padding: 30px;
+  margin: 40px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 1000px; /* chỉnh theo ý bạn */
+  background: rgba(0,0,0,0.5); /* lớp phủ trong suốt giữ nguyên */
+}
+
+/* Hiệu ứng viền sáng chạy quanh */
+.tier-list-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 3px; /* độ dày viền */
+  background: linear-gradient(90deg, #ff0080, #00ffff, #ff0080);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: border-animate 5s linear infinite;
+  pointer-events: none; /* không ảnh hưởng click bên trong */
+}
+
+/* Hiệu ứng ánh sáng chạy quanh */
+@keyframes border-animate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* Font dễ thương */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
+
+.start-screen-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 1s ease, visibility 1s ease;
+  font-family: 'Comfortaa', cursive;
+}
+
+.start-content {
+  text-align: center;
+  animation: fadeInScale 1.5s ease-out;
+}
+
+.start-title {
+  font-size: 50px;
+  color: #ff6ec4;
+  animation: rainbowText 3s infinite linear;
+}
+
+.start-subtitle {
+  font-size: 20px;
+  margin: 10px 0 30px;
+  color: #555;
+}
+
+.start-button {
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  background-color: #ff9a9e;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+}
+
+.start-button:hover {
+  background-color: #fad0c4;
+}
+
+/* Ẩn khi tắt */
+.start-screen-2.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Hoạt hình xuất hiện */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Hoạt hình màu chạy cho tiêu đề */
+@keyframes rainbowText {
+  0% { color: #ff6ec4; }
+  25% { color: #f9f871; }
+  50% { color: #00d2ff; }
+  75% { color: #a18cd1; }
+  100% { color: #ff6ec4; }
+}
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <!-- StartScreen 2 -->
+  <div class="start-screen-2" id="startScreen2">
+  <div class="start-content">
+    <h1 class="start-title">Welcome to Zoe1 ✨</h1>
+    <p class="start-subtitle">Chuyến hành trình kỳ diệu bắt đầu...</p>
+    <button class="start-button" onclick="hideStartScreen()">Bắt đầu</button>
+  </div>
+</div>
+
+
+  <!-- Nội dung chính -->
+  <div id="mainContent">
+    <canvas id="rainCanvas"></canvas>
+
+    <div class="header-block">
+  <div class="name-block">
+    <div class="logo-center">
+      <img src="logo2.jpg" alt="Logo" />
+    </div>
+    <div class="top-name">ZÒwÓE</div>
+    <div class="bottom-name">VN BA 2412</div>
+  </div>
+
+
+    <div class="footer-links">
+      <a
+        href="https://www.facebook.com/vmba2412"
+        class="link-btn fb glow-border"
+        target="_blank"
+        ><i class="fab fa-facebook-f"></i> Facebook</a
+      >
+      <a
+        href="https://www.instagram.com/zoe24122412"
+        class="link-btn ig glow-border"
+        target="_blank"
+        ><i class="fab fa-instagram"></i> Instagram</a
+      >
+      <a
+        href="https://www.youtube.com/@Zoe-mx9jb"
+        class="link-btn yt glow-border"
+        target="_blank"
+        ><i class="fab fa-youtube"></i> YouTube</a
+      >
+      <a
+        href="https://open.spotify.com/user/31lika3pd6k7gvql7vxssto4ckfy"
+        class="link-btn glow-border"
+        target="_blank"
+        ><i class="fab fa-spotify"></i> Spotify</a
+      >
+      <a
+        href="https://playerduo.net"
+        class="link-btn dou glow-border"
+        target="_blank"
+        ><i class="fas fa-gamepad"></i> PlayerDou</a
+      >
+      
+    </div>
+	
+	<div class="tier-list-container">
+	<div class="roles-container">
+  <h2>ROLES</h2>
+ 
+  <div class="roles-buttons">
+    <div class="role-button">
+      <img src="	https://konect.gg/assets/images/GameLeagueOfLegendsRoleMid.png" alt="MID" />
+      
+    </div>
+   
+  </div>
+</div>
+  <h2>TIER LIST</h2>
+
+  <!-- Tier S -->
+  
+
+  <div class="tier-row s-tier">
+    <div class="tier-rank s-tier">S</div>
+    <div class="champion-card s-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Zoe.png" alt="Zoe" />
+      <div class="champion-name">Zoe</div>
+    </div>
+    <div class="champion-card s-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Viktor.png" alt="Viktor" />
+      <div class="champion-name">Viktor</div>
+    </div>
+    <div class="champion-card s-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Syndra.png" alt="Syndra" />
+      <div class="champion-name">Syndra</div>
+    </div>
+	<div class="champion-card s-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Ahri.png" alt="Ahri" />
+      <div class="champion-name">Ahri</div>
+    </div>
+  </div>
+
+  <!-- Tier A -->
+  <div class="tier-row a-tier">
+    <div class="tier-rank a-tier">A</div>
+    <div class="champion-card a-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Ryze.png" alt="Ryze " />
+      <div class="champion-name">Ryze </div>
+    </div>
+    <div class="champion-card a-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Orianna.png" alt="Orianna" />
+      <div class="champion-name">Orianna</div>
+    </div>
+	<div class="champion-card a-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Taliyah.png" alt="Taliyah" />
+      <div class="champion-name">Taliyah</div>
+    </div><div class="champion-card a-tier">
+      <img src="https://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Leblanc.png" alt="Leblanc" />
+      <div class="champion-name">LeBlanc</div>
+    </div>
+	
+	
+  </div>
+  <div class="ranks-container">
+  <h2>RANKS</h2>
+  <div class="ranks-list">
+    <div class="rank-card">
+      <div class="rank-header">
+        <img src="https://konect.gg/assets/images/GameLeagueOfLegends.svg" alt="LoL" />
+        <span>League of Legends Dou</span>
+      </div>
+      <img class="rank-image" src="https://opgg-static.akamaized.net/images/medals_new/challenger.png?image=q_auto:good,f_webp,w_144&v=1757055872" alt="Challenger" />
+      <div class="rank-name">CHALLENGER</div>
+    </div>
+	<div class="rank-card">
+      <div class="rank-header">
+        <img src="https://konect.gg/assets/images/GameLeagueOfLegends.svg" alt="LoL" />
+        <span>Xếp Hạng Các Mùa </span>
+      </div>
+      <img class="rank-image" src="https://opgg-static.akamaized.net/images/medals_new/challenger.png?image=q_auto:good,f_webp,w_144&v=1757055872" alt="Challenger" />
+      <div class="rank-name">CHALLENGER</div>
+    </div>
+	
+    <div class="rank-card">
+      <div class="rank-header">
+        <img src="https://opgg-static.akamaized.net/images/medals_new/challenger.png?image=q_auto:good,f_webp,w_144&v=1757055872" alt="LoL" />
+        <span>League of Legends Flex</span>
+      </div>
+      <img class="rank-image" src="https://opgg-static.akamaized.net/images/medals_new/challenger.png?image=q_auto:good,f_webp,w_144&v=1757055872" alt="Challenger" />
+      <div class="rank-name">CHALLENGER</div>
+    </div>
+  </div>
+  <!-- Thêm dòng text ở dưới cùng -->
+  <div class="rank-footer-text">Thách Đấu nhiều mùa–nhận cày thuê,kéo rank,duo uy tín,nhanh,bảo mật tuyệt đối!</div>
+  <div id="visitor-counter" style="
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #e59dcc;
+  font-weight: 700;
+  font-size: 14px;
+  user-select: none;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(229, 157, 204, 0.7);
+">
+  
+
+</div>
+
+    <div class="phone-popup" id="phonePopup">
+      <div class="popup-header">
+        <span>Liên hệ embeNabu</span>
+        <button class="close-btn" onclick="togglePhonePopup()">&times;</button>
+      </div>
+      <p>
+        Số điện thoại: <strong>0348776518</strong
+        ><br />
+        Nếu thấy tôi không nghe máy hãy gửi SMS, tôi sẽ sớm liên hệ lại
+      </p>
+    </div>
+
+    
+
+    
+
+    <audio id="myAudio" loop>
+      <source src="nabu1.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const startScreen2 = document.getElementById('startScreen2');
+      const mainContent = document.getElementById('mainContent');
+      const audio = document.getElementById('myAudio');
+
+      // Hiện startScreen2 khi trang vừa tải xong
+      startScreen2.style.display = 'flex';
+
+      // Sự kiện click để chuyển màn và phát nhạc
+      startScreen2.addEventListener('click', () => {
+        startScreen2.style.display = 'none';
+        mainContent.style.display = 'block';
+
+        audio.play().catch(err => {
+          console.warn('Không thể phát nhạc:', err);
+        });
+      });
+    });
+
+    
+
+    // Canvas mưa
+    const canvas = document.getElementById('rainCanvas');
+    const ctx = canvas.getContext('2d');
+    let w = (canvas.width = window.innerWidth);
+    let h = (canvas.height = window.innerHeight);
+    const drops = [];
+
+    function RainDrop() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.len = Math.random() * 15 + 15;
+      this.speed = Math.random() * 2 + 4;
+      this.opacity = Math.random() * 0.5 + 0.2;
+    }
+
+    RainDrop.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(this.x, this.y + this.len);
+      ctx.strokeStyle = `rgba(174,194,224,${this.opacity})`;
+      ctx.lineWidth = 1;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    };
+
+    RainDrop.prototype.update = function () {
+      this.y += this.speed;
+      if (this.y > h) {
+        this.y = -this.len;
+        this.x = Math.random() * w;
+      }
+    };
+
+    for (let i = 0; i < 500; i++) {
+      drops.push(new RainDrop());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      for (let drop of drops) {
+        drop.update();
+        drop.draw();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Popup số điện thoại
+    function togglePhonePopup(e) {
+      if (e) e.preventDefault();
+      const popup = document.getElementById('phonePopup');
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    }
+	async function updateVisitorCount() {
+  try {
+    const response = await fetch('https://api.counterapi.dev/hit/nabu/730');
+    const data = await response.json();
+
+    document.getElementById('visitor-count').textContent = data.value;
+  } catch (error) {
+    console.error('Error updating visitor count:', error);
+  }
+}
+
+updateVisitorCount();
+const bubbleCanvas = document.createElement("canvas");
+  document.body.appendChild(bubbleCanvas);
+  bubbleCanvas.style.position = "fixed";
+  bubbleCanvas.style.top = "0";
+  bubbleCanvas.style.left = "0";
+  bubbleCanvas.style.pointerEvents = "none";
+  bubbleCanvas.style.zIndex = "0";
+
+  const ctx2 = bubbleCanvas.getContext("2d");
+  let bw = (bubbleCanvas.width = window.innerWidth);
+  let bh = (bubbleCanvas.height = window.innerHeight);
+
+  const bubbles = [];
+
+  for (let i = 0; i < 40; i++) {
+    bubbles.push({
+      x: Math.random() * bw,
+      y: bh + Math.random() * bh,
+      r: Math.random() * 6 + 2,
+      speed: Math.random() * 1 + 0.5,
+      alpha: Math.random() * 0.4 + 0.3
+    });
+  }
+
+  function animateBubbles() {
+    ctx2.clearRect(0, 0, bw, bh);
+    bubbles.forEach(b => {
+      b.y -= b.speed;
+      if (b.y < -b.r) {
+        b.y = bh + b.r;
+        b.x = Math.random() * bw;
+      }
+      ctx2.beginPath();
+      ctx2.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx2.fillStyle = `rgba(255, 255, 255, ${b.alpha})`;
+      ctx2.fill();
+    });
+    requestAnimationFrame(animateBubbles);
+  }
+
+  animateBubbles();
+  </script>
+</body>
+</html>
