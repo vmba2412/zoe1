@@ -703,7 +703,36 @@ body {
   75% { color: #a18cd1; }
   100% { color: #ff6ec4; }
 }
+.start-subtitle {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Dancing Script', cursive; /* bạn có thể đổi font ở đây */
+  color: #ffffff;
+  text-shadow: 
+    0 0 10px #fff,
+    0 0 20px #ff9ff3,
+    0 0 40px #f368e0,
+    0 0 60px #f368e0;  /* thêm lớp glow mạnh hơn */
+  margin: 10px 0 20px;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
 
+@keyframes glow {
+  from {
+    text-shadow: 
+      0 0 15px #fff,
+      0 0 30px #ff9ff3,
+      0 0 45px #f368e0,
+      0 0 70px #f368e0;
+  }
+  to {
+    text-shadow: 
+      0 0 25px #fff,
+      0 0 45px #ff9ff3,
+      0 0 70px #f368e0,
+      0 0 100px #f368e0;
+  }
+}
 
 
 
@@ -1040,6 +1069,7 @@ const bubbleCanvas = document.createElement("canvas");
   </script>
 </body>
 </html>
+
 
 
 
